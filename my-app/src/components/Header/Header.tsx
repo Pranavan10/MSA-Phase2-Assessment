@@ -11,6 +11,7 @@ import './Header.css'
 
 interface IProps{
     setPage:(page: string) => void
+    
 }
 
 

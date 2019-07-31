@@ -9,45 +9,38 @@ import * as React from 'react';
 
 
 
-interface IState{
-    open:boolean
+
+interface IProps{
+    setOpen:(open:boolean) => void
+    open: boolean
 }
 
 
 
-export default class FormDialog extends React.Component<{},IState> {
+export default class LoginDialog extends React.Component<IProps,{}> {
    
     constructor(props: any) {
         super(props);
-        this.state = {
-            open: false
-        }
-        this.handleClose = this.handleClose.bind(this)
+        
+        
     }
-    public setOpen = (open:boolean) => {
-        this.setState((prevState:any) => {
-            return ({
-                open: !prevState.open
-            })
-        }
-        )
-    }
+    
     public handleClickOpen = () => {
-        this.setOpen(true);
+        this.props.setOpen(true);
     }
     
     public handleClose =  () => {
-        this.setOpen(false);
+        this.props.setOpen(false);
     }
 
     
     public render() {
         return (
             <React.Fragment>
-            <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+           {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
         Open form dialog
-      </Button>
-            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+        </Button>*/}
+            <Dialog open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
           <DialogContentText>
