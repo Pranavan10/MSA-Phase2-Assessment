@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import Header from './components/Header/Header'
 
-import LoginDialog from './components/LoginDialog/LoginDialog';
+import LoginDialog from './components/LoginDialog/LoginDialog'
 import UserReview from './components/UserReview/UserReview';
 
 
@@ -33,13 +33,14 @@ class App extends React.Component<any, IState> {
     })
   }
 
-  public setOpen = (open:boolean) => {
-    this.setState((prevState:any) => {
-        return ({
-            open: !prevState.open
+  public setOpen = (nextOpen:boolean) => {
+    if(nextOpen !==this.state.open){
+        this.setState({
+          open:nextOpen
+    
         })
     }
-    )
+    
   }
   
 
@@ -49,8 +50,16 @@ class App extends React.Component<any, IState> {
     switch(this.state.curPage){
       case "User":{
         curPage = <UserReview/>
+        break
       } case "Login":{
-        this.setOpen(true)
+       
+          this.setOpen(true)
+          
+          break
+        
+        
+        
+       
       }
       
         
@@ -62,14 +71,14 @@ class App extends React.Component<any, IState> {
       
       <div>
 
-         
+         <LoginDialog open={this.state.open} setOpen={this.setOpen}/>
          <Header setPage={this.setPage}/>
            {
              curPage
            
            }
 
-        <LoginDialog open={this.state.open} setOpen={this.setOpen}/>
+       
          {/*} <TextBox/>*/}
           {/*<Review/>*/}
         

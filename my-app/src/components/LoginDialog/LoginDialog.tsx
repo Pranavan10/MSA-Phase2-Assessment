@@ -37,15 +37,14 @@ export default class LoginDialog extends React.Component<IProps,{}> {
     public render() {
         return (
             <React.Fragment>
-           {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-        Open form dialog
-        </Button>*/}
+           
             <Dialog open={this.props.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+          <Button style={{right:0, top:0 }} variant="outlined" color="primary" onClick={this.handleClickOpen}>
+        Open form dialog
+        </Button>
           </DialogContentText>
           
         </DialogContent>
