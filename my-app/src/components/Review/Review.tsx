@@ -35,6 +35,7 @@ import './Review.css'
         <div>
             <Row>
                 <Col>
+                
                 Movie
                 </Col>
                 
