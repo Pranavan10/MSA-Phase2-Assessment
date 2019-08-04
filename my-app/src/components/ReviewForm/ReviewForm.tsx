@@ -1,15 +1,17 @@
 import {  Button } from '@material-ui/core';
 import * as React from 'react'
-import  { Component } from 'react'
+
 import {Form} from 'react-bootstrap'
 import{Col ,Row} from 'react-bootstrap'
 
 
-import './TextBox.css'
+import './ReviewForm.css'
 
+interface IProps{
+    findReview:() => void
+}
 
-
-export default class TextBox extends Component {
+export default class TextBox extends React.Component<IProps,{}> {
     public render(){
 
     
@@ -27,7 +29,7 @@ export default class TextBox extends Component {
                 </Col>
                 <Col>
                     
-                    <Button style={{outline:'none', width:'100%' }} size="small" color="primary" className="submit" >
+                    <Button onClick = {() => this.props.findReview()} style={{outline:'none', width:'100%' }} size="small" color="primary" className="submit" >
                     Search
                     </Button>
                 </Col>
