@@ -2,7 +2,7 @@
 import {  Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
-
+import * as $ from "jquery";
 import * as React from 'react'
 
 import {Form} from 'react-bootstrap'
@@ -13,8 +13,9 @@ import './ReviewForm.css'
 
 
 
+
 interface IState{
-    
+    searchList:any[],
     value:number
     
 }
@@ -24,15 +25,51 @@ interface IProps{
     findReview:() => void
 }
 
+
 export default class ReviewForm extends React.Component<IProps,IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-          
-          value:0
+          searchList : [],
+          value:0,
           
           
         }
+        this.performSearch("ant")
+    }
+    public performSearch = (searchTerm:any) =>{
+        const urlString = "https://api.themoviedb.org/3/search/movie?api_key=1df04ea58d909adbd19cffafbb455fed&language=en-US&page=1&include_adult=falsehttps://api.themoviedb.org/3/movie/550?api_key=1df04ea58d909adbd19cffafbb455fed&query=" +searchTerm
+        $.ajax({ /*asynchronous calls to internet*/
+           
+            
+            error:(xhr:any,status:any,err:any) =>{
+                console.log("do")
+            },
+            success: (searchResults:any) => {
+                
+                
+                const results= searchResults.results
+                let tempSearchList:any[]
+                tempSearchList=[]
+                results.forEach((movie:any)=> {
+                    console.log(movie.title)
+                    tempSearchList.push(movie.title)
+                })
+                this.setState({
+                    searchList:tempSearchList
+                    
+                    
+                })
+            },
+            url:urlString,
+            
+        })
+        
+    }
+    public searchChangeHandler = (event:any) =>{
+        const searchTerm=event.target.value
+        this.performSearch(searchTerm)
+        
     }
     public render(){
 
@@ -59,7 +96,7 @@ export default class ReviewForm extends React.Component<IProps,IState> {
                 </Col>
                 <Col xs={4}>
                     <Form>
-                    <Form.Control type="text" as ="textarea"  />
+                    <Form.Control type="text" as ="textarea" onChange={this.searchChangeHandler} />
                     
                     </Form>
                 </Col>
