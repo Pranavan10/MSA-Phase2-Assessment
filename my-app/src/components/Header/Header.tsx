@@ -12,9 +12,9 @@ interface IState{
 
 
 interface IProps{
-    isLoggedIn:boolean
-    setPage:(page: string) => void
-    
+    isLoggedIn:boolean;
+    setPage:(page: string) => void;
+    setDialog:(nextOpen: boolean) => void;
     
 }
 
@@ -38,9 +38,9 @@ export default class Header extends React.Component<IProps, IState> {
             <h1 className='headerText'><img src={MoView} alt="Paris Itinerary" style={{width:200, marginLeft:10}}/> <img src={logo} alt="Paris Itinerary" style={{width:113, marginLeft:10}}/></h1>
             <Button onClick = {() => this.props.setPage("Home")}  style= {{color:'white', position:'absolute',right:10, top:10}} >Home</Button>
             <Button onClick = {() => this.props.setPage("User")}  style= {{color:'white', position:'absolute',right:10, top:70}} >Your Reviews</Button>
-            <Button onClick = {() => this.props.setPage("Login")}style={{color:'white', position:'absolute', right:10, top:40, outline:'none'}}>
-                           {this.state.log}
-                        </Button>
+            <Button onClick = {() => this.props.setDialog(true)}style={{color:'white', position:'absolute', right:10, top:40, outline:'none'}}>
+                {this.state.log}
+            </Button>
                         
         
             

@@ -45,28 +45,21 @@ class App extends React.Component<any, IState> {
       reviewSearch: true
     })
   }
+
   public setPage = (page:string) =>{
     this.setState({
       curPage: page,
       reviewSearch:false
     })
   }
-
-  public setOpen = (nextOpen:boolean) => {
+  
+  public setDialog = (nextOpen:boolean) => {
+    console.log("Current state: ", this.state.open, "Proposed State; ", nextOpen)
     if(nextOpen !==this.state.open){
-        this.setState({
-          open:nextOpen
-    
-        })
+      this.setState({
+        open:nextOpen
+      })
     }
-    
-  }
-  public handleClickOpen = () => {
-    this.setOpen(true);
-  }
-
-  public handleClose =  () => {
-    this.setOpen(false);
   }
 
   public getLog = (log:boolean , id:string) => {
@@ -75,8 +68,6 @@ class App extends React.Component<any, IState> {
       userID:id
     })
   }
-  
-  
 
   public render() {
     let curPage: any;
@@ -85,45 +76,21 @@ class App extends React.Component<any, IState> {
       case "User":{
         curPage = <UserReview/>
         break
-      } case "Login":{
-       
-          this.setOpen(true)
-          
-          break
       } case "Home":{
-        
         if(this.state.reviewSearch===true){
           curPage=<Review/>
         } else{
           curPage=<ReviewForm findReview={this.findReview}/>
         }
+        break;
       }
-      
-        
-        
-        
-      
    } 
     return (
-      
-      <div>
-
-         <LoginDialog open={this.state.open} setOpen={this.setOpen} handleClose= {this.handleClose} handleClickOpen = {this.handleClickOpen} getLog={this.getLog}/>
-         <Header setPage={this.setPage} isLoggedIn={this.state.isLoggedIn}/>
-           {
-             curPage
-           }
-
-             
-           
-           
-           
-
-       
-         
-          
-        
-      </div>
+      <React.Fragment>
+        <LoginDialog open={this.state.open} setOpen={this.setDialog} />
+        <Header setPage={this.setPage} setDialog = {this.setDialog} isLoggedIn={this.state.isLoggedIn} />
+        {curPage}
+      </React.Fragment>
     );
   }
 }

@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import * as React from 'react';
 import{Col,Row} from 'react-bootstrap'
 import FacebookLogin from 'react-facebook-login';
+import { isNullOrUndefined } from 'util';
 
 interface IState{
   isLoggedIn: boolean,
@@ -22,11 +23,6 @@ interface IState{
 interface IProps{
     setOpen:(open:boolean) => void
     open: boolean
-    handleClickOpen :() => void
-    handleClose :() => void
-    getLog:(log:boolean, id: string)=> void
-    
-
 }
 
 
@@ -40,49 +36,39 @@ export default class LoginDialog extends React.Component<IProps,IState> {
           name:"",
           picture:"",
           userID:"",
-          
-          
         }
-        
         
     }
     public responseFacebook = (response: any) =>{
-     /*Issue*/ {this.props.getLog(this.state.isLoggedIn, this.state.userID)}
-      this.setState({
-        isLoggedIn:true,
-        name: response.name,
-        picture: response.picture.data.url,
-        userID:response.userID,
-        
-        
-
-
-      })
-      
+      if(response.error !== isNullOrUndefined) {
+        this.setState({
+          isLoggedIn:true,
+          name: response.name,
+          picture: response.picture.data.url,
+          userID:response.userID,
+        })
+      }
     }
     public componentClicked = () => console.log("dd")
     
-
-    
     public render() {
+
       let fbContent;
+
       if(this.state.isLoggedIn){
         fbContent=(
-          <div style={{
-            margin: 'auto'
-          }}>
-
+          <React.Fragment>
             <Row>
               <Col>
-            <img src={this.state.picture} alt ={this.state.name} style={{marginLeft:93}}/>
-            </Col>
+                <img src={this.state.picture} alt ={this.state.name} style={{marginLeft:93}}/>
+              </Col>
             </Row>
             <Row>
               <Col>
-            Welcome {this.state.name}
-            </Col>
+                Welcome {this.state.name}
+              </Col>
             </Row>
-          </div>
+          </React.Fragment>
         )
       } else{
         fbContent=(<FacebookLogin
@@ -94,25 +80,24 @@ export default class LoginDialog extends React.Component<IProps,IState> {
       }
         return (
             <React.Fragment>
-              
-           
-            <Dialog open={this.props.open}  aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Login with Facebook</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-          <div>{fbContent}</div>
-        
-          </DialogContentText>
-          
-        </DialogContent>
-        <DialogActions>
-          
-          <Button onClick={() => this.props.handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-    </Dialog>
-    </React.Fragment>
+              <Dialog open={this.props.open} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Login with Facebook</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    <div>
+                      {fbContent}
+                    </div>
+                  </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                  <Button 
+                    onClick= {() => {console.log("hi"); this.props.setOpen(false)}}  color="primary">
+                    Close
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </React.Fragment>
 
         )
     }
