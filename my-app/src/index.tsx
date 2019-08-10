@@ -11,7 +11,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 
 ReactDOM.render(
-  <App />,
+  <App  />,
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();

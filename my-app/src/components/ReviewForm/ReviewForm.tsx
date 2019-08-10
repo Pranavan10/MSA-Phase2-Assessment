@@ -12,16 +12,23 @@ import './ReviewForm.css';
 
 
 
+
+
+
 interface IState{
     
     inputValue: string,
+    
     searchList:any[],
     value:number
+    
+
 }
 
 
 interface IProps{
     findReview:() => void
+    getMovieimage:(InputValue:any) => void
 }
 
 
@@ -33,6 +40,7 @@ export default class ReviewForm extends React.Component<IProps,IState> {
         this.state = {
             
           inputValue: "",
+          
           searchList : [],
           value:0,
           
@@ -45,11 +53,16 @@ export default class ReviewForm extends React.Component<IProps,IState> {
     public loadOptions = (inputValue: any, callback: any) => {
         return new Promise(resolve => {
             resolve(this.performSearch(inputValue))
+            
         });
+        
     }
+
+    
     public performSearch = (searchTerm:any) => {
         const tempSearchList:any[] = [];
         if( searchTerm!== "" ){
+            
             const urlString = "https://api.themoviedb.org/3/search/movie?api_key=1df04ea58d909adbd19cffafbb455fed&language=en-US&page=1&include_adult=false&query=" +searchTerm;
             
             return fetch(urlString, {
@@ -61,8 +74,9 @@ export default class ReviewForm extends React.Component<IProps,IState> {
                 const results= searchResults.results;
                 results.forEach((movie:any)=> {
                     tempSearchList.push({   
-                        label: movie.original_title,
-                        value: movie.original_title
+                        label: movie.title,
+                        value: movie.title
+
                     });
                 })
                 return tempSearchList;
@@ -82,34 +96,35 @@ export default class ReviewForm extends React.Component<IProps,IState> {
         <div className="textbox">
             
             <Row>
-                <Col style={{textAlign:"center" ,fontSize:20, borderRight:10,borderRightColor:'#000000'}}>Look at Reviews</Col>
-                <Col style={{textAlign:"center",fontSize:20}}>Post your opinion</Col>
+                <Col style={{textAlign:"center" ,fontSize:25, borderRight:10,borderRightColor:'#000000',marginBottom:"10px"}}>Look at Reviews</Col>
+                <Col style={{textAlign:"center",fontSize:25,marginBottom:"10px"}}>Post your opinion</Col>
             </Row>
             <Row>
                 <Col xs ={6}>
                 <AsyncSelect
                 
+                
                 defaultOptions = {false}
                 cacheOptions = {true}
                 isLoading = {true}
                 loadOptions = {this.loadOptions}
-                onInputChange = {(newValue: string) => {this.setState({inputValue: newValue}); return newValue}}
+                onInputChange = {(newValue: string) => {this.setState({inputValue: newValue}); console.log(newValue); return newValue}}
                 />  
                     
                 </Col>
-                <Col xs={2}>
+                <Col xs={2} style={{fontSize:20, margin:0}}>
                     Movie Watched
                 
                     
                 </Col>
                 <Col xs={4}>
                     <AsyncSelect
-                    
+                    style={{ height:"100px"}}
                     defaultOptions = {false}
                     cacheOptions = {true}
                     isLoading = {true}
                     loadOptions = {this.loadOptions}
-                    onInputChange = {(newValue: string) => {this.setState({inputValue: newValue}); return newValue}}
+                    onInputChange = {(newValue: string) =>  newValue}
                     />
                 </Col>
                 
@@ -119,14 +134,14 @@ export default class ReviewForm extends React.Component<IProps,IState> {
                 
                 <Col xs={6}>
 
-                <Button onClick = {() => this.props.findReview()} style={{outline:'none', width:'100%' }} size="small" color="primary" className="search" >
+                <Button onClick = {() =>{this.props.findReview(); console.log(this.state.inputValue)} } style={{outline:'none', width:'100%'  }} size="small" variant="contained" color="primary" className="search"  >
                     Search
                     </Button>
                     
                 </Col>
 
                 <Col xs={6} style={{textAlign:"center"}}>
-                <Typography component="legend">Rating</Typography>
+                <Typography  component="legend" style={{fontWeight:"bold"}}>Rating</Typography>
                 <div style={{display: "flex", justifyContent: "center"}}>
                 <Rating 
                 name="simple-controlled"
@@ -141,9 +156,9 @@ export default class ReviewForm extends React.Component<IProps,IState> {
                 </Col>
             </Row>
             <Row>
-                <Col xs={6}/>
-                <Col>
-                <Form.Control type="text" placeholder="Enter Review" as ="textarea"  />
+                <Col xs={6} />
+                <Col >
+                <Form.Control type="text" style={{height : "500px", fontSize:"25px" }}  placeholder="Enter Review" as ="textarea"  />
                 </Col>
 
             </Row>
@@ -151,7 +166,7 @@ export default class ReviewForm extends React.Component<IProps,IState> {
                 <Col xs={6}/>
                 <Col>
                     
-                    <Button style={{outline:'none', width:'100%' }} size="small" color="primary" className="submit" >
+                    <Button  variant="contained" color="primary" style={{ outline:'none', width:'100%'  }} size="small"    >
                     Submit
                     </Button>
                 </Col>

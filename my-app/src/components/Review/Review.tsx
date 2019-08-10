@@ -1,74 +1,62 @@
 
 import * as React from 'react'
+import  { Component, } from 'react'
+import ReviewCard from '../ReviewCard/ReviewCard';
 
 
-import{Col ,Row} from 'react-bootstrap'
-
-
-import './Review.css'
-
-
-/*interface IState{
-    searched:any
-    reviews:any
-}*/
-
-
-
- class Review extends React.Component {
-
-     constructor(props: any)
-    {
-        super(props);
-        this.state =
-        {
-            reviews:[],
-            searched:String,
-            
-        }
-    }
-    public render()
-    {
-
+interface IState{
     
-    return (
-        <div>
-            <Row>
-                <Col>
-                
-                Movie
-                </Col>
-                
-                <Col/>
-                
-                
-                <Col/>
-                
-            </Row>
-            <Row>
-                <Col>
-               Rating
-                </Col>
-                
-                <Col/>
-                
-               
-                <Col/>
-                
-            </Row>
-            <Row>
-                <Col className="yo" >
-                Genre
-                </Col>
-                
-                <Col/>
-                
-                
-                <Col/>
-                
-            </Row>
-            </div>
-    )
+    reviewsFromDb: IMovieReview[]
+}
+
+
+
+interface IMovieReview {
+    name:string,
+    movie: string,
+    review: string,
+    rating: number,
+    
+    
+}
+
+export default class UserReview extends Component<{}, IState> {
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            reviewsFromDb: [
+                {
+                    name:"Pranavan",
+                    movie: "adad",
+                    rating: 3,
+                    review: "tyrurty"
+                }, 
+                {
+                    name:"Pranavan",
+                    movie: "asdasd",
+                    rating: 2,
+                    review: "sdsdf"
+                },
+                {
+                    name:"Pranavan",
+                    movie: "bobo",
+                    rating: 5,
+                    review: "yoyo"
+                }
+              ]
+            }
+    }
+    public render(){
+        return (
+            this.state.reviewsFromDb.map((review: IMovieReview, i: number) => {
+                return (
+                    <React.Fragment key = {i}>
+                    <ReviewCard key = {i} movie = {review.movie} rating = {review.rating} review= {review.review} name={review.name} />
+                    
+                    </React.Fragment>
+                )
+            })
+        )
     }
 }
-export default Review

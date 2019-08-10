@@ -16,9 +16,11 @@ import UserReview from './components/UserReview/UserReview';
 interface IState{
   curPage: string
   isLoggedIn:boolean
+  movieUrl:string,
   open:boolean
   reviewSearch:boolean
   userID:string
+  
 
   
 }
@@ -32,13 +34,36 @@ class App extends React.Component<any, IState> {
     this.state = {
       curPage: "Home",
       isLoggedIn:false,
+      movieUrl:"",
       open:false,
       reviewSearch:false,
-      userID:""
+      userID:"",
+      
 
 
     }
     
+}
+
+public getMovieImage = (inputValue:any) =>{
+  console.log(inputValue)     
+  const urlString = "https://api.themoviedb.org/3/search/movie?api_key=1df04ea58d909adbd19cffafbb455fed&language=en-US&page=1&include_adult=false&query=" +inputValue;
+  return fetch(urlString, {
+      method: 'GET'
+  }).then((result: any) => {
+      return result.json();
+  }).then((result:any) => {
+      
+      console.log(result)
+      /*this.setState({
+          
+          movieUrl:"https://http://image.tmdb.org/t/p/w185"+result.movie.poster_path
+          
+      })*/
+      console.log(this.state.movieUrl)
+      
+  })
+  
 }
   public findReview = () =>{
     this.setState({
@@ -80,7 +105,7 @@ class App extends React.Component<any, IState> {
         if(this.state.reviewSearch===true){
           curPage=<Review/>
         } else{
-          curPage=<ReviewForm findReview={this.findReview}/>
+          curPage=<ReviewForm findReview={this.findReview} getMovieimage={this.getMovieImage}/>
         }
         break;
       }
