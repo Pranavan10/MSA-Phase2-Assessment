@@ -103,7 +103,7 @@ public getMovieImage = (inputValue:any) =>{
         break
       } case "Home":{
         if(this.state.reviewSearch===true){
-          curPage=<Review/>
+          curPage=<Review />
         } else{
           curPage=<ReviewForm findReview={this.findReview} getMovieimage={this.getMovieImage}/>
         }

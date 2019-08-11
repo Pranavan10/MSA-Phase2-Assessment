@@ -39,6 +39,25 @@ export default class LoginDialog extends React.Component<IProps,IState> {
         }
         
     }
+    public addUser = () =>{
+      
+      fetch('https://localhost:44343/api/Users',{
+        
+        
+        method: 'POST',
+        headers:{
+          
+          'Accept': '/swagger/v1/swagger.json',
+          'Content-Type': '/swagger/v1/swagger.json',
+        },
+        body: JSON.stringify({
+          userId:this.state.userID,
+          fullName:this.state.name,
+          
+        })
+
+      })
+    }
     public responseFacebook = (response: any) =>{
       if(response.error !== isNullOrUndefined) {
         this.setState({
@@ -46,7 +65,10 @@ export default class LoginDialog extends React.Component<IProps,IState> {
           name: response.name,
           picture: response.picture.data.url,
           userID:response.userID,
+          
         })
+        console.log(this.state.name)
+        this.addUser()
       }
     }
     public componentClicked = () => console.log("dd")
